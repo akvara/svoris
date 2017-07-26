@@ -21,6 +21,35 @@ class WeightTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 201)
         self.assertIn('87.5', str(res.data))
 
+    def test_duplicating_for_date_is_replaced(self):
+        weight = {'for_date': '2017-06-07', 'weight': 66.6}
+        # self.register_user()
+        # result = self.login_user()
+        # access_token = json.loads(result.data.decode())['access_token']
+        # user_id = User.decode_token(access_token)
+
+        # vote['user_id'] = user_id
+
+        res = self.client().post(
+            '/weights/',
+            # headers=dict(Authorization="Bearer " + access_token),
+            data = weight)
+        # print res.data
+        # pass
+        result_in_json = json.loads(res.data.decode('utf-8').replace("'", "\""))
+        rec_id = result_in_json['id']
+        weight['weight'] = 88.8
+
+        res = self.client().post(
+            '/weights/',
+            # headers=dict(Authorization="Bearer " + access_token),
+            data = weight)
+        self.assertEqual(res.status_code, 201)
+        result_in_json = json.loads(res.data.decode('utf-8').replace("'", "\""))
+
+        self.assertEqual(rec_id, result_in_json['id'])
+        self.assertEqual(88.8, result_in_json['weight'])
+
     def test_api_can_get_all_weights(self):
         """Test API can get a weight (GET request)."""
         res = self.client().post('/weights/', data=self.weight)
