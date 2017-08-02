@@ -12,14 +12,16 @@ def create_app(config_name):
 
     app = FlaskAPI(__name__, instance_relative_config = True)
     app.logger.addHandler(logging.StreamHandler(sys.stdout))
-    app.logger.setLevel(logging.INFO)
+    app.logger.setLevel(logging.DEBUG)
+
     logging.debug('This message should go to the log file')
     logging.info('So should this')
     logging.warning('And this, too')
+    logging.warning(config_name)
+
     app.config.from_object(app_config[config_name])
     app.config.from_pyfile('config.py')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
     db.init_app(app)
 
     @app.route('/weights/', methods=['POST', 'GET'])
