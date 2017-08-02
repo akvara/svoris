@@ -2,6 +2,8 @@ from flask_api import FlaskAPI
 from flask_sqlalchemy import SQLAlchemy
 from flask import request, jsonify, abort
 from instance.config import app_config
+import logging
+import sys
 
 db = SQLAlchemy()
 
@@ -9,9 +11,20 @@ def create_app(config_name):
     from app.models import Weight
 
     app = FlaskAPI(__name__, instance_relative_config = True)
+    print ("ahoy!")
+
+    app.logger.addHandler(logging.StreamHandler(sys.stdout))
+    app.logger.setLevel(logging.DEBUG)
+
+    logging.debug('This message should go to the log file')
+    logging.info('So should this')
+    logging.warning(config_name)
+
     app.config.from_object(app_config[config_name])
     app.config.from_pyfile('config.py')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    logging.warning(app.config['SQLALCHEMY_DATABASE_URI'])
+
     db.init_app(app)
 
     @app.route('/weights/', methods=['POST', 'GET'])
