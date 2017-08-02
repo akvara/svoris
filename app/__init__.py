@@ -12,8 +12,10 @@ def create_app(config_name):
 
     app = FlaskAPI(__name__, instance_relative_config = True)
     app.logger.addHandler(logging.StreamHandler(sys.stdout))
-    app.logger.setLevel(logging.ERROR)
-
+    app.logger.setLevel(logging.INFO)
+    logging.debug('This message should go to the log file')
+    logging.info('So should this')
+    logging.warning('And this, too')
     app.config.from_object(app_config[config_name])
     app.config.from_pyfile('config.py')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
