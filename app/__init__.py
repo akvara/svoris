@@ -11,9 +11,8 @@ def create_app(config_name):
     from app.models import Weight
 
     app = FlaskAPI(__name__, instance_relative_config = True)
-
     app.logger.addHandler(logging.StreamHandler(sys.stdout))
-    app.logger.setLevel(logging.DEBUG)
+    app.logger.setLevel(logging.ERROR)
 
     app.config.from_object(app_config[config_name])
     app.config.from_pyfile('config.py')
