@@ -55,7 +55,6 @@ def create_app(config_name):
 
     @app.route('/weights/<int:id>', methods=['GET'])
     def weight_manipulation(id, **kwargs):
-        # retrieve a buckelist using it's ID
         weight = Weight.query.filter_by(id = id).first()
         if not weight:
             # Raise an HTTPException with a 404 not found status code
