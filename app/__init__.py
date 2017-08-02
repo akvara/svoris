@@ -18,9 +18,13 @@ def create_app(config_name):
     def weights():
         if request.method == "POST":
             for_date = str(request.data.get('for_date', ''))
-            weight = str(request.data.get('weight', ''))
-            if for_date and weight:
-                weight = Weight(for_date = for_date, weight = weight)
+            weight_data = str(request.data.get('weight', ''))
+            if for_date and weight_data:
+                weight = Weight.query.filter_by(for_date = for_date).first()
+                if not weight:
+                    weight = Weight(for_date = for_date, weight = weight_data)
+                else:
+                    weight.weight = weight_data
                 weight.save()
                 response = jsonify({
                     'id': weight.id,
@@ -52,7 +56,7 @@ def create_app(config_name):
     @app.route('/weights/<int:id>', methods=['GET'])
     def weight_manipulation(id, **kwargs):
         # retrieve a buckelist using it's ID
-        weight = Weight.query.filter_by(id=id).first()
+        weight = Weight.query.filter_by(id = id).first()
         if not weight:
             # Raise an HTTPException with a 404 not found status code
             abort(404)
