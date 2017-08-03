@@ -34,12 +34,13 @@ def post_weights(list):
             if r.status_code == 201:
                 print str
             else:
-                print r.status_code, r.text
+                print(r.status_code, r.text)
         else:
             print "Not imported: '" + str + "' at line", lineno
 
 
-url = 'http://127.0.0.1:5000/weights/'
+# url = 'http://127.0.0.1:5000/weights/'
+url = 'http://svoris-api.herokuapp.com/weights/'
 
 if __name__ == "__main__":
     # execute only if run as a script
