@@ -47,6 +47,7 @@ def create_app(config_name):
         else:
             # GET
             weights = Weight.get_all()
+            weights.sort(key=lambda it: it.for_date, reverse=True)
             results = []
 
             for weight in weights:
