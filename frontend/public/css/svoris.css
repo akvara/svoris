@@ -9,4 +9,9 @@ body {
 .right-align {
     text-align: right;
 }
+.digits {
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
+}
 

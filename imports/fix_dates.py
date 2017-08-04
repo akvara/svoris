@@ -2,8 +2,13 @@ import sys
 
 
 def fix_dates(strng):
+    out = []
+    for item in strng.splitlines():
+        (for_date, weight) = item.split(" ")
+        (y, m, d) = for_date.split("-")
 
-    pass
+        out.append("-".join((y, m.zfill(2), d.zfill(2))) + " " + weight)
+    return "\n".join(out)
 
 
 if __name__ == "__main__":
@@ -20,7 +25,7 @@ if __name__ == "__main__":
         strng = handle.read()
         handle.close()
         handle = open(output_file, "w")
-        handle.write(strng)
+        handle.write(fix_dates(strng))
         handle.write('\n')
         handle.close()
     except:
