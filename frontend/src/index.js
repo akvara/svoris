@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
-import WeightPost from './components/WeightPost';
-import WeightGet from './components/WeightGet';
-import PressureGet from './components/PressureGet';
+// import App from './components/App';
+import WeightPost from './components/weight-post';
+import WeightGet from './components/weight-get';
+import PressureGet from './components/pressure-get';
 
 // window.onbeforeunload = function() {
    // return "Do you really want to leave Pomodoro app?";

@@ -1,22 +1,16 @@
 import React, { Component } from 'react';
-// import * as Utils from '../utils/utils.js';
+import Button from './button';
+import * as Utils from '../utils/utils';
+
 
 class WeightPost extends Component {
     constructor(props, context) {
         super(props, context);
 
         this.state = {
-            weight: [9, 4, 3]
+            weight: [9, 4, 3],
+            submitting: false
         }
-    }
-
-    formatDate() {
-        var date = new Date();
-        var day = date.getDate();
-        var month = date.getMonth();
-        var year = date.getFullYear();
-
-        return year + '-' + ("00" + month).slice(-2)  + '-' + ("00" + day).slice(-2);
     }
 
     minus(which) {
@@ -52,8 +46,19 @@ class WeightPost extends Component {
             <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
         </button>
     }
-    render() {
 
+    submit() {
+        this.setState({ submitting: true })
+        // $.post(
+        //     UrlUtils.getWeightUrl()
+        //     .done(this.setUserSettings(settings))
+        //     .fail((err) => {
+        //         console.log(err);
+        //     })
+    }
+
+    render() {
+        const {error, handleSubmit, submitting, currentLanguage} = this.props;
         return (
             <div>
                 <table>
@@ -63,27 +68,25 @@ class WeightPost extends Component {
                         <td>{this.buttonPlus(1)}</td>
                         <td>&nbsp;</td>
                         <td>{this.buttonPlus(2)}</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
                     </tr>
                     <tr>
                         <td className="digits">{this.state.weight[0]}</td>
                         <td className="digits">{this.state.weight[1]}</td>
                         <td className="digits">.</td>
                         <td className="digits">{this.state.weight[2]}</td>
-                        <td>&nbsp;</td>
-                        <td><button>{ this.formatDate() }</button></td>
                     </tr>
                     <tr>
                         <td>{this.buttonMinus(0)}</td>
                         <td>{this.buttonMinus(1)}</td>
                         <td>&nbsp;</td>
                         <td>{this.buttonMinus(2)}</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
                     </tr>
                     </tbody>
                 </table>
+                <br />
+                <Button submit={false} loading={this.state.submitting} disabled={this.state.submitting} onClick={this.submit.bind(this)}>
+                    { Utils.formatDate(new Date().toISOString()) }
+                </Button>
             </div>
 
         );

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Lister from './Lister';
+import Lister from './lister';
 
 class PressureGet extends Lister {
     constructor(props, context) {

@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 
 class Lister extends Component {
 
+    /* Entry point for children classes */
+    componentWillMount() {
+        this.loadData();
+    }
+
+    loadData(data) {
+    }
+
     /* items to string: abstract */
     formatItem(item) {
         return ''
