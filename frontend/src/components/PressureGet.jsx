@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import Lister from './Lister';
 
-class WeightGet extends Lister {
+class PressureGet extends Lister {
     constructor(props, context) {
         super(props, context);
         var items = []
         for (var i=19; i>0; i--) {
-            items.push({for_date: '2017-07-' + i, weight: i + 70 + "." + i})
+            items.push({for_date: '2017-07-' + i, sys: i + 120, dia: i + 70, pul: i + 50})
         }
         this.state = {
             items: items,
@@ -15,9 +15,9 @@ class WeightGet extends Lister {
     }
 
     formatItem(item) {
-        return <div>{item.weight} <span className="small"> - {item.for_date}</span></div>
+        return <div>{item.sys}/{item.dia}/{item.pul} <span className="small"> - {item.for_date}</span></div>
     }
 
 }
 
-export default WeightGet;
+export default PressureGet;
