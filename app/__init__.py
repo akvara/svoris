@@ -33,7 +33,7 @@ def create_app(config_name):
         if request.method == "POST":
             for_date = str(request.data.get('for_date', ''))
             weight_data = str(request.data.get('weight', ''))
-            if for_date and weight_data:
+            if for_date and weight_data and weight_data.replace('.','',1).isdigit():
                 weight = Weight.query.filter_by(for_date = for_date).first()
                 if not weight:
                     weight = Weight(for_date = for_date, weight = weight_data)

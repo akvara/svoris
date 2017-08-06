@@ -14,6 +14,11 @@ body {
     font-weight: bold;
     text-align: center;
 }
+.minmax {
+    font-weight: bold;
+}
+
+
 .lightblue {
     background-color: lightblue;
 }

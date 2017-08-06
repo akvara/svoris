@@ -8,7 +8,7 @@ class WeightStats extends Component {
 
         return (
             <div>
-                Min: {min.value} ({min.for_date}) Max: {max.value} ({max.for_date})
+                Min: <b>{min.value}</b> ({min.for_date}) Max: <b>{max.value}</b> ({max.for_date})
             </div>
         );
     }
