@@ -10,9 +10,10 @@ class WeightInput extends Component {
 
         let weight = props.last ? props.last : 91.2
 
+        this.for_date = Utils.formatDate(new Date().toISOString())
+
         this.state = {
-            // weight: Utils.numToArr(weight),
-            weight: [8, 1, 2],
+            weight: Utils.numToArr(weight),
             submitting: false
         }
     }
@@ -27,7 +28,7 @@ class WeightInput extends Component {
         if (newValue[which] > 0) {
             newValue[which] --;
         }
-        this.setState(newValue, this.updateConfigValue.bind(this, which));
+        this.setState({weight: newValue});
     }
 
     plus(which) {
@@ -36,7 +37,7 @@ class WeightInput extends Component {
         if (newValue[which] < 9) {
             newValue[which] ++;
         }
-        this.setState(newValue, this.updateConfigValue.bind(this, which));
+        this.setState({weight: newValue});
     }
 
     buttonMinus(which) {
@@ -62,14 +63,15 @@ class WeightInput extends Component {
     }
 
     submit() {
-        console.log('this.state.weight:', this.state.weight);
+        // console.log('this.state.weight:', this.state.weight);
         this.setState({ submitting: true })
-        console.log(UrlUtils.getWeightUrl());
+
+        // console.log(Utils.arrToNum(this.state.weight));
         $.ajax({
             type: 'POST',
             url: UrlUtils.getWeightUrl(),
             crossDomain: true,
-            data: {for_date: "2011-11-11", weight: "11"},
+            data: { for_date: this.for_date, weight: Utils.arrToNum(this.state.weight, 10) },
             dataType: 'json',
             success: this.processSubmitSuccess.bind(this),
             error: this.processSubmitFailure.bind(this)
@@ -112,7 +114,7 @@ class WeightInput extends Component {
                 </table>
                 <br />
                 <Button submit={false} loading={this.state.submitting} disabled={this.state.submitting} onClick={this.submit.bind(this)}>
-                    { Utils.formatDate(new Date().toISOString()) }
+                    { this.for_date }
                 </Button>
             </div>
 

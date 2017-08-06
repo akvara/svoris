@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app';
 import Loading from './components/loading';
+import 'react-switch-button/dist/react-switch-button.css';
 
 window.onbeforeunload = function() {
    return "Do you really want to leave Pomodoro app?";

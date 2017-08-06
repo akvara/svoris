@@ -7,7 +7,7 @@ class WeightChart extends React.Component {
       return (
           <LineChart width={800} height={300} data={this.props.items} margin={{top: 5, right: 5, left: 5, bottom: 5}}>
           <XAxis dataKey="for_date"/>
-          <YAxis />
+          <YAxis domain={['auto', 'auto']} />
           <CartesianGrid strokeDasharray="3 3"/>
           <Tooltip/>
           <Legend />
