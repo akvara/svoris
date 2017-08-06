@@ -16,7 +16,21 @@ var numToArr = function(numStr) {
     return arr;
 }
 
+var sortArrOfObjectsByParam = function(arrToSort, sortBy, sortDesc) {
+    if(!sortDesc) {
+        return arrToSort.sort(function (a, b) {
+            return a[sortBy] < b[sortBy] ? -1 : 1;
+        });
+    }
+    else {
+        return arrToSort.sort(function (a, b) {
+            return a[sortBy] > b[sortBy] ? -1 : 1;
+        });
+    }
+}
+
 module.exports = {
     formatDate,
-    numToArr
+    numToArr,
+    sortArrOfObjectsByParam
 };

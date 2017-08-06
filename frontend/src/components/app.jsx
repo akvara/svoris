@@ -3,8 +3,12 @@ import ReactDOM from 'react-dom';
 
 import WeightInput from './weight-input';
 import WeightOutput from './weight-output';
+import WeightStats from './weight-stats';
+import WeightChart from './weight-chart';
 
 import * as UrlUtils from '../utils/url-utils';
+import * as Utils from '../utils/utils';
+
 import $ from 'jquery';
 
 class App extends React.Component {
@@ -12,28 +16,38 @@ class App extends React.Component {
     constructor(props, context) {
         super(props, context);
 
-        this.which = 'svoris';
+        this.which = 'Svoris';
         this.data = []
     }
 
-    componentWillMount() {
-        console.log('componentWillMount');
+    callback(i) {
+        console.log('callback:', i);
         this.requestData()
     }
 
+    componentWillMount() {
+        this.requestData()
+    }
+
+    snatchData(data) {
+        var arr = []
+        data.forEach(function(element) {
+            arr.push({'for_date': Utils.formatDate(element.for_date), 'weight': element.weight});
+        });
+        return arr;
+    }
+
     requestData() {
-        if (this.which === 'svoris') {
+        if (this.which === 'Svoris') {
             return $.get(
                 UrlUtils.getWeightUrl()
             )
             .done((data) => {
-                console.log('weights Received');
-
+                // console.log('data:', JSON.stringify(data) );
                 this.weightsReceived(data)
             })
             .fail((err) => {
                 console.log(err);
-                this.setWeights([])
             });
         } else {
 
@@ -41,18 +55,31 @@ class App extends React.Component {
     }
 
     weightsReceived(data) {
-        this.data = data
-        ReactDOM.render(<WeightInput last = {data[0].weight}/>, document.getElementById('input'));
-        // ReactDOM.render(<WeightInput last="90.1"/>, document.getElementById('output'));
-        ReactDOM.render(<WeightOutput items = {data}/>, document.getElementById('output'));
-    }
+        let snatched = this.snatchData(data);
 
+        Utils.sortArrOfObjectsByParam(snatched, 'weight', false)
+        let stats = {
+            'min': {
+                value: snatched[0].weight,
+                for_date: snatched[0].for_date
+            },
+            'max': {
+                value: snatched[1].weight,
+                for_date: snatched[1].for_date
+            }
+        }
+        ReactDOM.render(<WeightStats items={stats}/>, document.getElementById('stats'));
+        Utils.sortArrOfObjectsByParam(snatched, 'for_date', false)
+        ReactDOM.render(<WeightChart items={snatched}/>, document.getElementById('chart'));
+        Utils.sortArrOfObjectsByParam(snatched, 'for_date', true)
+        ReactDOM.render(<WeightOutput items={snatched}/>, document.getElementById('output'));
+        ReactDOM.render(<WeightInput last={data[0].weight} callback={this.callback.bind(this)}/>, document.getElementById('input'));
+    }
 
     render() {
         return (
             <div>
-                <h1>[Čia bus Toggle mygtukas]</h1>
-                <br />
+                <h1>{this.which}</h1>
             </div>
         );
     }

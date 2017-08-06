@@ -1,4 +1,5 @@
 from flask_api import FlaskAPI
+from flask_cors import CORS, cross_origin
 from flask_sqlalchemy import SQLAlchemy
 from flask import request, jsonify, abort
 from instance.config import app_config
@@ -11,6 +12,9 @@ def create_app(config_name):
     from app.models import Weight
 
     app = FlaskAPI(__name__, instance_relative_config = True)
+    CORS(app)
+    # cors = CORS(app, resources={r"/*": {"origins": "*"}})
+
     app.logger.addHandler(logging.StreamHandler(sys.stdout))
     app.logger.setLevel(logging.DEBUG)
 
@@ -24,6 +28,7 @@ def create_app(config_name):
     db.init_app(app)
 
     @app.route('/weights/', methods=['POST', 'GET'])
+    # @cross_origin()
     def weights():
         if request.method == "POST":
             for_date = str(request.data.get('for_date', ''))
@@ -42,8 +47,23 @@ def create_app(config_name):
                     'date_created': weight.date_created,
                     'date_modified': weight.date_modified
                 })
+
                 response.status_code = 201
                 return response
+            else:
+                missing = []
+                if not weight_data:
+                    missing.append('weight')
+                if not for_date:
+                    missing.append('for_date')
+
+                response = jsonify({
+                    'message': 'Missing: ' + (', ').join(missing),
+                    'data': request.data
+                })
+                response.status_code = 400
+                return response
+
         else:
             # GET
             weights = Weight.get_all()
@@ -81,11 +101,11 @@ def create_app(config_name):
         response.status_code = 200
         return response
 
-    @app.after_request
-    def after_request(response):
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-        response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-        return response
+    # @app.after_request
+    # def after_request(response):
+    #     response.headers.add('Access-Control-Allow-Origin', '*')
+    #     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    #     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    #     return response
 
     return app
