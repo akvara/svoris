@@ -14,4 +14,16 @@ body {
     font-weight: bold;
     text-align: center;
 }
+.lightblue {
+    background-color: lightblue;
+}
+.aliceblue {
+    background-color: aliceblue;
+}
+.beige {
+    background-color: beige;
+}
+.khaki {
+    background-color: khaki;
+}
 

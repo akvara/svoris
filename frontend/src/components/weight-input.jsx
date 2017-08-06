@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import Button from './button';
 import * as Utils from '../utils/utils';
 
-
-class WeightPost extends Component {
+class WeightInput extends Component {
     constructor(props, context) {
         super(props, context);
 
+        let weight = props.last ? props.last : 91.2
+
         this.state = {
-            weight: [9, 4, 3],
+            weight: Utils.numToArr(weight),
             submitting: false
         }
     }
@@ -94,4 +95,4 @@ class WeightPost extends Component {
     }
 }
 
-export default WeightPost;
+export default WeightInput;

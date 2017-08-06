@@ -28,13 +28,12 @@ class Lister extends Component {
 
     /* The Renderer */
     render() {
-        if (this.state.notYetLoaded) return <div className="pre-scrollable">(loading ...)</div>
-
+        // if (this.state.notYetLoaded) return <div className="pre-scrollable">(loading ...)</div>
         return (
             <div className="pre-scrollable">
                 <table>
                     <tbody>
-                        { this.state.items.map(this.displayItem.bind(this)) }
+                        { this.props.items.map(this.displayItem.bind(this)) }
                     </tbody>
                 </table>
             </div>

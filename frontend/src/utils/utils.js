@@ -7,6 +7,16 @@ var formatDate = function(dateStr) {
         return year + '-' + ("00" + month).slice(-2)  + '-' + ("00" + day).slice(-2);
 }
 
+var numToArr = function(numStr) {
+    if (typeof(numStr) === 'number') numStr = numStr.toString();
+    var arr = [];
+    for (var i = 0, len = numStr.length; i < len; i++) {
+        if (numStr[i] !== '.')  arr.push(numStr[i]);
+    }
+    return arr;
+}
+
 module.exports = {
-    formatDate
+    formatDate,
+    numToArr
 };
