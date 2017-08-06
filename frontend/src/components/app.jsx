@@ -20,6 +20,11 @@ class App extends React.Component {
         this.data = []
     }
 
+    callback(i) {
+        console.log('callback:', i);
+        this.requestData()
+    }
+
     componentWillMount() {
         this.requestData()
     }
@@ -43,7 +48,6 @@ class App extends React.Component {
             })
             .fail((err) => {
                 console.log(err);
-                this.setWeights([])
             });
         } else {
 
@@ -69,9 +73,8 @@ class App extends React.Component {
         ReactDOM.render(<WeightChart items={snatched}/>, document.getElementById('chart'));
         Utils.sortArrOfObjectsByParam(snatched, 'for_date', true)
         ReactDOM.render(<WeightOutput items={snatched}/>, document.getElementById('output'));
-        ReactDOM.render(<WeightInput last={data[0].weight}/>, document.getElementById('input'));
+        ReactDOM.render(<WeightInput last={data[0].weight} callback={this.callback.bind(this)}/>, document.getElementById('input'));
     }
-
 
     render() {
         return (

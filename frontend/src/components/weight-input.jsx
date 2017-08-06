@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Button from './button';
 import * as Utils from '../utils/utils';
+import * as UrlUtils from '../utils/url-utils';
+import $ from 'jquery';
 
 class WeightInput extends Component {
     constructor(props, context) {
@@ -9,9 +11,14 @@ class WeightInput extends Component {
         let weight = props.last ? props.last : 91.2
 
         this.state = {
-            weight: Utils.numToArr(weight),
+            // weight: Utils.numToArr(weight),
+            weight: [8, 1, 2],
             submitting: false
         }
+    }
+
+    callback(i) {
+        this.props.callback(i);
     }
 
     minus(which) {
@@ -20,6 +27,7 @@ class WeightInput extends Component {
         if (newValue[which] > 0) {
             newValue[which] --;
         }
+        this.setState(newValue, this.updateConfigValue.bind(this, which));
     }
 
     plus(which) {
@@ -28,6 +36,7 @@ class WeightInput extends Component {
         if (newValue[which] < 9) {
             newValue[which] ++;
         }
+        this.setState(newValue, this.updateConfigValue.bind(this, which));
     }
 
     buttonMinus(which) {
@@ -42,14 +51,38 @@ class WeightInput extends Component {
         </button>
     }
 
+    processSubmitSuccess() {
+        this.callback()
+        this.setState({ submitting: false })
+    }
+
+    processSubmitFailure(responseData, textStatus, errorThrown) {
+        this.setState({ submitting: false })
+        console.log('POST error:', responseData, textStatus, errorThrown);
+    }
+
     submit() {
+        console.log('this.state.weight:', this.state.weight);
         this.setState({ submitting: true })
+        console.log(UrlUtils.getWeightUrl());
+        $.ajax({
+            type: 'POST',
+            url: UrlUtils.getWeightUrl(),
+            crossDomain: true,
+            data: {for_date: "2011-11-11", weight: "11"},
+            dataType: 'json',
+            success: this.processSubmitSuccess.bind(this),
+            error: this.processSubmitFailure.bind(this)
+        });
+
+
         // $.post(
-        //     UrlUtils.getWeightUrl()
-        //     .done(this.setUserSettings(settings))
-        //     .fail((err) => {
-        //         console.log(err);
-        //     })
+            // UrlUtils.getWeightUrl()
+            // )
+        // .done()
+        // .fail((err) => {
+            // console.log(err);
+        // })
     }
 
     render() {

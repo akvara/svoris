@@ -1,12 +1,10 @@
 import React from 'react';
 import classnames from 'classnames';
-// import {Link} from 'react-router-dom';
-import Icon from './icon';
+// import Icon from './icon';
 
 export default function Button(props) {
     const {
         type = 'primary',
-        // to = null,
         className = '',
         submit = false,
         loading = false,
@@ -22,18 +20,10 @@ export default function Button(props) {
             : 'button'
     };
 
-    // if (to) {
-        // return (
-            // <Link to={to} {...btnprops}>
-                // {children}
-            // </Link>
-        // );
-    // }
-
     if (loading) {
         return (
             <button {...btnprops}>
-                <Icon icon="spinner" spin={true} size="ss"/>
+                Submitting ..
             </button>
         );
     }
