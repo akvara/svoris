@@ -19,7 +19,6 @@ class WeightInput extends Component {
 
         if (newValue[which] > 0) {
             newValue[which] --;
-            this.setState({weight: newValue}, this.debug);
         }
     }
 
@@ -28,12 +27,7 @@ class WeightInput extends Component {
 
         if (newValue[which] < 9) {
             newValue[which] ++;
-            this.setState({weight: newValue}, this.debug);
         }
-    }
-
-    debug() {
-        console.log('this.state:', this.state);
     }
 
     buttonMinus(which) {
@@ -59,7 +53,6 @@ class WeightInput extends Component {
     }
 
     render() {
-        const {error, handleSubmit, submitting, currentLanguage} = this.props;
         return (
             <div>
                 <table>
