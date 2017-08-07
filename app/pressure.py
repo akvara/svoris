@@ -1,17 +1,23 @@
 from app import db
 
-class Weight(db.Model):
-    __tablename__ = 'weights'
+class Pressure(db.Model):
+    __tablename__ = 'pressures'
 
     id = db.Column(db.Integer, primary_key = True)
     for_date = db.Column(db.DateTime, default = db.func.current_timestamp())
-    weight = db.Column(db.Float)
+    for_hour = db.Column(db.Integer)
+    sys = db.Column(db.Integer)
+    dia = db.Column(db.Integer)
+    pul = db.Column(db.Integer)
     date_created = db.Column(db.DateTime, default = db.func.current_timestamp())
     date_modified = db.Column(db.DateTime, default = db.func.current_timestamp(), onupdate = db.func.current_timestamp())
 
-    def __init__(self, for_date, weight):
+    def __init__(self, for_date, for_hour, sys, dia, pul):
         self.for_date = for_date
-        self.weight = weight
+        self.for_hour = for_hour
+        self.sys = sys
+        self.dia = dia
+        self.pul = pul
 
     def save(self):
         db.session.add(self)
@@ -19,12 +25,4 @@ class Weight(db.Model):
 
     @staticmethod
     def get_all():
-        return Weight.query.all()    \
-
-    @staticmethod
-    def get_last():
-        return Weight.query.all()
-
-    def __repr__(self):
-        pass
-        # return "<On {} it was {}>".format(self.weight)
+        return Pressure.query.all()

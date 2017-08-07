@@ -1,28 +1,35 @@
 import unittest
-import os
 import json
 import datetime
 from app import create_app, db
 
-class WeightTestCase(unittest.TestCase):
+class PressureTestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app(config_name="testing")
         self.client = self.app.test_client
-        self.weight = {'for_date': datetime.datetime.now(), 'weight': 87.5}
+        self.pressure = {
+            'for_date': datetime.datetime.now(),
+            'for_hour': 11,
+            'sys': 120, 'dia': 80, 'pul': 70
+        }
 
         # binds the app to the current context
         with self.app.app_context():
             # create all tables
             db.create_all()
 
-    def test_weight_creation(self):
-        """Test API can create a weight (POST request)"""
-        res = self.client().post('/weights/', data = self.weight)
+    def test_pressure_creation(self):
+        """Test API can create a pressure (POST request)"""
+        res = self.client().post('/pressures/', data = self.pressure)
         self.assertEqual(res.status_code, 201)
-        self.assertIn('87.5', str(res.data))
+        self.assertIn('120', str(res.data))
 
     def test_duplicating_for_date_is_replaced(self):
-        weight = {'for_date': '2017-06-07', 'weight': 66.6}
+        pressure = {
+            'for_date': '2017-06-07',
+            'for_hour': '13',
+            'sys': 129, 'dia': 89, 'pul': 79
+        }
         # self.register_user()
         # result = self.login_user()
         # access_token = json.loads(result.data.decode())['access_token']
@@ -31,43 +38,41 @@ class WeightTestCase(unittest.TestCase):
         # vote['user_id'] = user_id
 
         res = self.client().post(
-            '/weights/',
-            # headers=dict(Authorization="Bearer " + access_token),
-            data = weight)
-        # print res.data
-        # pass
+            '/pressures/',
+            data = pressure)
+
         result_in_json = json.loads(res.data.decode('utf-8').replace("'", "\""))
         rec_id = result_in_json['id']
-        weight['weight'] = 88.8
+        pressure['pul'] = 88
 
         res = self.client().post(
-            '/weights/',
+            '/pressures/',
             # headers=dict(Authorization="Bearer " + access_token),
-            data = weight)
+            data = pressure)
         self.assertEqual(res.status_code, 201)
         result_in_json = json.loads(res.data.decode('utf-8').replace("'", "\""))
 
         self.assertEqual(rec_id, result_in_json['id'])
-        self.assertEqual(88.8, result_in_json['weight'])
+        self.assertEqual(88, result_in_json['pul'])
 
-    def test_api_can_get_all_weights(self):
-        """Test API can get a weight (GET request)."""
-        res = self.client().post('/weights/', data=self.weight)
+    def test_api_can_get_all_pressures(self):
+        """Test API can get a pressure (GET request)."""
+        res = self.client().post('/pressures/', data=self.pressure)
         self.assertEqual(res.status_code, 201)
-        res = self.client().get('/weights/')
+        res = self.client().get('/pressures/')
         self.assertEqual(res.status_code, 200)
-        self.assertIn('87.5', str(res.data))
+        self.assertIn('120', str(res.data))
 
-    def test_api_can_get_weight_by_id(self):
-        """Test API can get a single weight by using it's id."""
-        rv = self.client().post('/weights/', data=self.weight)
+    def test_api_can_get_pressure_by_id(self):
+        """Test API can get a single pressure by using it's id."""
+        rv = self.client().post('/pressures/', data=self.pressure)
         self.assertEqual(rv.status_code, 201)
         result_in_json = json.loads(rv.data.decode('utf-8').replace("'", "\""))
         result = self.client().get(
-            '/weights/{}'.format(result_in_json['id']))
+            '/pressures/{}'.format(result_in_json['id']))
         print str(result.data)
         self.assertEqual(result.status_code, 200)
-        self.assertIn('87.5', str(result.data))
+        self.assertIn('120', str(result.data))
 
     def tearDown(self):
         """teardown all initialized variables."""

@@ -19,12 +19,4 @@ class Weight(db.Model):
 
     @staticmethod
     def get_all():
-        return Weight.query.all()    \
-
-    @staticmethod
-    def get_last():
         return Weight.query.all()
-
-    def __repr__(self):
-        pass
-        # return "<On {} it was {}>".format(self.weight)
