@@ -5,6 +5,10 @@ import WeightInput from './weight/input';
 import WeightOutput from './weight/output';
 import WeightStats from './weight/stats';
 import WeightChart from './weight/chart';
+import PressureInput from './pressure/input';
+import PressureOutput from './pressure/output';
+import PressureStats from './pressure/stats';
+import PressureChart from './pressure/chart';
 import * as UrlUtils from '../utils/url-utils';
 import * as Utils from '../utils/utils';
 import $ from 'jquery';
@@ -18,19 +22,24 @@ class App extends React.Component {
     }
 
     switch() {
-        if (this.state.which === 'Svoris') { this.setState({ which: 'Spaudimas' }) } else this.setState({ which: 'Svoris' })
-        this.requestData()
+        if (this.state.which === 'Svoris') {
+            this.requestData('Spaudimas')
+            this.setState({ which: 'Spaudimas' })
+        } else {
+            this.requestData('Svoris')
+            this.setState({ which: 'Svoris' })
+        }
     }
 
     callback() {
-        this.requestData()
+        this.requestData(this.state.which)
     }
 
     componentWillMount() {
-        this.requestData()
+        this.requestData('Svoris')
     }
 
-    snatchData(data) {
+    snatchWeightData(data) {
         var arr = []
         data.forEach(function(element) {
             arr.push({'for_date': Utils.formatDate(element.for_date), 'weight': element.weight, date: new Date(Utils.formatDate(element.for_date))});
@@ -38,8 +47,23 @@ class App extends React.Component {
         return arr;
     }
 
-    requestData() {
-        if (this.state.which === 'Svoris') {
+    snatchPressureData(data) {
+        var arr = []
+        data.forEach(function(element) {
+            arr.push({
+                'for_date': Utils.formatDate(element.for_date),
+                'for_hour': element.for_hour,
+                'sys': element.sys,
+                'dia': element.dia,
+                'pul': element.pul,
+                date: new Date(Utils.formatDate(element.for_date))
+            });
+        });
+        return arr;
+    }
+
+    requestData(which) {
+        if (which === 'Svoris') {
             $.get(
                 UrlUtils.getWeightUrl()
             )
@@ -50,17 +74,22 @@ class App extends React.Component {
                 console.log(err);
             });
         } else {
-
+            $.get(
+                UrlUtils.getPressureUrl()
+            )
+            .done((data) => {
+                this.pressuresReceived(data)
+            })
+            .fail((err) => {
+                console.log(err);
+            });
         }
     }
 
     weightsReceived(data) {
-        let snatched = this.snatchData(data);
-        // console.log('snatched:', snatched);
+        let snatched = this.snatchWeightData(data);
 
         let by_weight = Utils.sortArrOfObjectsByParam(snatched, 'weight').slice();
-        // console.log('pagal weight:', by_weight);
-
 
         let stats = {
             'min': {
@@ -74,16 +103,27 @@ class App extends React.Component {
         }
 
         var by_date_asc = Utils.sortByDate(snatched, false).slice();
-        console.log('pagal by_date_asc:', by_date_asc);
-
         var by_date_desc = Utils.sortByDate(snatched, true).slice();
-        console.log('pagal by_date_desc:', by_date_desc);
-
 
         ReactDOM.render(<WeightInput last={by_date_asc[by_date_asc.length - 1].weight} callback={this.callback.bind(this)}/>, document.getElementById('input'));
         ReactDOM.render(<WeightChart items={by_date_asc}/>, document.getElementById('chart'));
         ReactDOM.render(<WeightStats items={stats}/>, document.getElementById('stats'));
         ReactDOM.render(<WeightOutput items={by_date_desc}/>, document.getElementById('output'));
+    }
+
+    pressuresReceived(data) {
+        let snatched = this.snatchPressureData(data);
+
+        let stats = {
+        }
+
+        var by_date_asc = Utils.sortByDate(snatched, false).slice();
+        var by_date_desc = Utils.sortByDate(snatched, true).slice();
+
+        ReactDOM.render(<PressureInput last={by_date_asc[by_date_asc.length - 1].weight} callback={this.callback.bind(this)}/>, document.getElementById('input'));
+        ReactDOM.render(<PressureChart items={by_date_asc}/>, document.getElementById('chart'));
+        ReactDOM.render(<PressureStats items={stats}/>, document.getElementById('stats'));
+        ReactDOM.render(<PressureOutput items={by_date_desc}/>, document.getElementById('output'));
     }
 
     render() {

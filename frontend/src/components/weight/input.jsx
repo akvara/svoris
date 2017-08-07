@@ -18,8 +18,8 @@ class WeightInput extends Component {
         }
     }
 
-    callback(i) {
-        this.props.callback(i);
+    callback() {
+        this.props.callback();
     }
 
     minus(which) {
@@ -76,15 +76,6 @@ class WeightInput extends Component {
             success: this.processSubmitSuccess.bind(this),
             error: this.processSubmitFailure.bind(this)
         });
-
-
-        // $.post(
-            // UrlUtils.getWeightUrl()
-            // )
-        // .done()
-        // .fail((err) => {
-            // console.log(err);
-        // })
     }
 
     render() {
