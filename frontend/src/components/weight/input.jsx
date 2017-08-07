@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Button from './button';
-import * as Utils from '../utils/utils';
-import * as UrlUtils from '../utils/url-utils';
+import Button from '../button';
+import * as Utils from '../../utils/utils';
+import * as UrlUtils from '../../utils/url-utils';
 import $ from 'jquery';
 
 class WeightInput extends Component {

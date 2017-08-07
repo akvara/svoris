@@ -16,19 +16,19 @@ def post_pressures(list):
 
             payload = {
                 'for_date': '{0}-{1}-{2}'.format(y, mon, day),
-                'for_time': '{0}:{1}'.format(h, m),
+                'for_hour': '{0}'.format(h),
                 'sys': sys,
                 'dia': dia,
                 'pul': pul,
             }
-            print payload
-            # r = requests.post(url, data=payload)
-            # if r.status_code == 201:
-                # print str
-            # else:
-                # print(r.status_code, r.text)
-        # else:
-            # print "Not imported: '" + str + "' at line", lineno
+            # print payload
+            r = requests.post(url, data=payload)
+            if r.status_code == 201:
+                print str
+            else:
+                print(r.status_code, r.text)
+        else:
+            print "Not imported: '" + str + "' at line", lineno
 
 
 url = 'http://127.0.0.1:5000/pressures/'

@@ -1,6 +1,6 @@
 import React from 'react';
-import Lister from './lister';
-import * as Utils from '../utils/utils';
+import Lister from './../lister';
+import * as Utils from '../../utils/utils';
 
 class WeightOutput extends Lister {
     formatItem(item) {

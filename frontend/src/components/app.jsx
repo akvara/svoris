@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import WeightInput from './weight-input';
-import WeightOutput from './weight-output';
-import WeightStats from './weight-stats';
-import WeightChart from './weight-chart';
+import WeightInput from './weight/input';
+import WeightOutput from './weight/output';
+import WeightStats from './weight/stats';
+import WeightChart from './weight/chart';
 import * as UrlUtils from '../utils/url-utils';
 import * as Utils from '../utils/utils';
 import $ from 'jquery';
