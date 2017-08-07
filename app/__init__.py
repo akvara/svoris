@@ -18,17 +18,17 @@ def create_app(config_name):
     app.logger.addHandler(logging.StreamHandler(sys.stdout))
     app.logger.setLevel(logging.DEBUG)
 
-    logging.debug('This message should go to the log file')
-    logging.info('So should this')
-    logging.warning(config_name)
+    # logging.debug('This message should go to the log file')
+    # logging.info('So should this')
+    # logging.warning(config_name)
 
     app.config.from_object(app_config[config_name])
     app.config.from_pyfile('config.py')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
     db.init_app(app)
 
     @app.route('/weights/', methods=['POST', 'GET'])
-    # @cross_origin()
     def weights():
         if request.method == "POST":
             for_date = str(request.data.get('for_date', ''))
@@ -100,12 +100,5 @@ def create_app(config_name):
         })
         response.status_code = 200
         return response
-
-    # @app.after_request
-    # def after_request(response):
-    #     response.headers.add('Access-Control-Allow-Origin', '*')
-    #     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    #     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-    #     return response
 
     return app
