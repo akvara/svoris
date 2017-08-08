@@ -70,7 +70,6 @@ class PressureTestCase(unittest.TestCase):
         result_in_json = json.loads(rv.data.decode('utf-8').replace("'", "\""))
         result = self.client().get(
             '/pressures/{}'.format(result_in_json['id']))
-        print str(result.data)
         self.assertEqual(result.status_code, 200)
         self.assertIn('120', str(result.data))
 

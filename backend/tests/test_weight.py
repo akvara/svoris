@@ -65,7 +65,6 @@ class WeightTestCase(unittest.TestCase):
         result_in_json = json.loads(rv.data.decode('utf-8').replace("'", "\""))
         result = self.client().get(
             '/weights/{}'.format(result_in_json['id']))
-        print str(result.data)
         self.assertEqual(result.status_code, 200)
         self.assertIn('87.5', str(result.data))
 
