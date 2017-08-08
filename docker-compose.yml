@@ -10,4 +10,25 @@ services:
         volumes:
             - data:/var/lib/postgresql/data
         ports:
-            - "6432:5432"
+            - "9432:5432"
+    flask-api:
+        build: ./backend
+        volumes:
+            - ./backend:/app
+            - ./backend/media:/media
+            - ./frontend/dist:/static
+        command: ./bin/develop.sh
+        ports:
+            - "5000:5000"
+        environment:
+            FLASK_APP: run.py
+            SECRET: svoris-ir-tiek
+            APP_SETTINGS: development
+            DATABASE_URL: postgresql://svoris:svoris@db/svoris
+            DB_NAME: svoris
+            DB_USER: svoris
+            DB_HOST: db
+            DB_PORT: 5432
+        depends_on:
+            - db
+
