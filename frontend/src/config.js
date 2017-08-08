@@ -3,7 +3,8 @@ var CONFIG = {
     devHost: 'http://localhost:5000/',
     apiHost: 'http://svoris-api.herokuapp.com/',
     weightAddon: 'weights',
-    version: '0804-17',
+    pressureAddon: 'pressures',
+    version: '0807-22',
 };
 
 export default Object.freeze(CONFIG);

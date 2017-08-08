@@ -12,6 +12,11 @@ var getWeightUrl = function() {
     return getBaseUrl() + CONFIG.default.weightAddon + '/';
 };
 
+var getPressureUrl = function() {
+    return getBaseUrl() + CONFIG.default.pressureAddon + '/';
+};
+
 module.exports = {
-    getWeightUrl
+    getWeightUrl,
+    getPressureUrl
 };

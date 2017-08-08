@@ -6,7 +6,7 @@ class Home extends Component {
     return (
       <div className="main-content home">
         <h2>Svoris ir spaudimas</h2>
-        <p>Kas dieną</p>
+        <p>Kas dieną, kiekvien1 dien1</p>
       </div>
     );
   }

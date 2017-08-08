@@ -16,19 +16,19 @@ def post_pressures(list):
 
             payload = {
                 'for_date': '{0}-{1}-{2}'.format(y, mon, day),
-                'for_time': '{0}:{1}'.format(h, m),
+                'for_hour': '{0}'.format(h),
                 'sys': sys,
                 'dia': dia,
                 'pul': pul,
             }
-            print payload
-            # r = requests.post(url, data=payload)
-            # if r.status_code == 201:
-                # print str
-            # else:
-                # print(r.status_code, r.text)
-        # else:
-            # print "Not imported: '" + str + "' at line", lineno
+            # print payload
+            r = requests.post(url, data=payload)
+            if r.status_code == 201:
+                print str
+            else:
+                print(r.status_code, r.text)
+        else:
+            print "Not imported: '" + str + "' at line", lineno
 
 
 url = 'http://127.0.0.1:5000/pressures/'
@@ -36,12 +36,15 @@ url = 'http://127.0.0.1:5000/pressures/'
 
 if __name__ == "__main__":
     # execute only if run as a script
-    arg_names = ['command', 'input']
-    args = dict(zip(arg_names, sys.argv))
-    if not 'input' in args:
-        print "Usage: " + args["command"] + " input"
-        exit(-1)
-    input_file = args["input"]
+
+    # arg_names = ['command', 'input']
+    # args = dict(zip(arg_names, sys.argv))
+    # if not 'input' in args:
+        # print "Usage: " + args["command"] + " input"
+        # exit(-1)
+    # input_file = args["input"]
+
+    input_file = 'history_pressures.txt'
     try:
         file = open(input_file,"r")
         data = file.read()

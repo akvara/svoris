@@ -1,25 +1,25 @@
 import React from 'react';
 import { Route, NavLink } from 'react-router-dom';
 
-import HTML from './courses/HTML'
-import CSS from './courses/CSS'
-import JavaScript from './courses/JavaScript'
+import First from './placeholder/first'
+import Second from './placeholder/second'
+import Third from './placeholder/third'
 
-const Weight = () => (
-  <div className="main-content courses">
-    <div className="course-header group">
+const Pressure = () => (
+  <div className="main-content page">
+    <div className="weight-header group">
       <h2>Svoris</h2>
-      <ul className="course-nav">
-        <li><NavLink to='/courses/html'>Įvedimas</NavLink></li>
-        <li><NavLink to='/courses/css'>Grafikas</NavLink></li>
-        <li><NavLink to='/courses/javascript'>Duomenys</NavLink></li>
+      <ul className="page-nav">
+        <li><NavLink to='/weight/input'>Įvedimas</NavLink></li>
+        <li><NavLink to='/weight/chart'>Grafikas</NavLink></li>
+        <li><NavLink to='/weight/data'>Duomenys</NavLink></li>
       </ul>
     </div>
 
-    <Route path='courses/html' component={HTML} />
-    <Route path='courses/css' component={CSS} />
-    <Route path='courses/javascript' component={JavaScript} />
+    <Route path='weight/input' component={First} />
+    <Route path='weight/chart' component={Second} />
+    <Route path='weight/data' component={Third} />
   </div>
 );
 
-export default Weight;
+export default Pressure;
