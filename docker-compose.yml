@@ -32,3 +32,15 @@ services:
         depends_on:
             - db
 
+    frontend:
+        image: node:5.10
+        working_dir: /frontend
+        command: npm run start
+        volumes:
+            - ./frontend:/frontend
+            - ./backend:/backend
+        ports:
+            - "3000:3000"
+        depends_on:
+            - db
+            - flask-api
