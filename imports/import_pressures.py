@@ -36,12 +36,15 @@ url = 'http://127.0.0.1:5000/pressures/'
 
 if __name__ == "__main__":
     # execute only if run as a script
-    arg_names = ['command', 'input']
-    args = dict(zip(arg_names, sys.argv))
-    if not 'input' in args:
-        print "Usage: " + args["command"] + " input"
-        exit(-1)
-    input_file = args["input"]
+
+    # arg_names = ['command', 'input']
+    # args = dict(zip(arg_names, sys.argv))
+    # if not 'input' in args:
+        # print "Usage: " + args["command"] + " input"
+        # exit(-1)
+    # input_file = args["input"]
+
+    input_file = 'history_pressures.txt'
     try:
         file = open(input_file,"r")
         data = file.read()
