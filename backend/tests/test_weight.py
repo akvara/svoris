@@ -1,8 +1,9 @@
-import unittest
-import os
-import json
 import datetime
+import json
+import unittest
+
 from app import create_app, db
+
 
 class WeightTestCase(unittest.TestCase):
     def setUp(self):

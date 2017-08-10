@@ -1,7 +1,9 @@
-import unittest
-import json
 import datetime
+import json
+import unittest
+
 from app import create_app, db
+
 
 class PressureTestCase(unittest.TestCase):
     def setUp(self):

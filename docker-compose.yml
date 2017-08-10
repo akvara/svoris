@@ -40,7 +40,7 @@ services:
             - ./frontend:/frontend
             - ./backend:/backend
         ports:
-            - "3000:3000"
+            - "7000:3000"
         depends_on:
             - db
             - flask-api
