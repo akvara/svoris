@@ -18,10 +18,6 @@ class WeightInput extends Component {
         }
     }
 
-    callback() {
-        this.props.callback();
-    }
-
     minus(which) {
         var newValue = this.state.weight;
 
@@ -53,8 +49,8 @@ class WeightInput extends Component {
     }
 
     processSubmitSuccess() {
-        this.callback()
-        this.setState({ submitting: false })
+        this.props.callback();
+        this.setState({ submitting: false, submitted: true })
     }
 
     processSubmitFailure(responseData, textStatus, errorThrown) {
@@ -63,10 +59,8 @@ class WeightInput extends Component {
     }
 
     submit() {
-        // console.log('this.state.weight:', this.state.weight);
         this.setState({ submitting: true })
 
-        // console.log(Utils.arrToNum(this.state.weight));
         $.ajax({
             type: 'POST',
             url: UrlUtils.getWeightUrl(),
@@ -104,7 +98,7 @@ class WeightInput extends Component {
                     </tbody>
                 </table>
                 <br />
-                <Button submit={false} loading={this.state.submitting} disabled={this.state.submitting} onClick={this.submit.bind(this)}>
+                <Button submit={false} loading={this.state.submitting} disabled={this.state.submitting || this.state.submitted} onClick={this.submit.bind(this)}>
                     { this.for_date }
                 </Button>
             </div>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Select from 'react-select';
 import Button from '../button';
 import * as Utils from '../../utils/utils';
 import * as UrlUtils from '../../utils/url-utils';
@@ -13,16 +12,48 @@ class PressureInput extends Component {
         this.for_hour = new Date().getHours()
 
         this.state = {
-            sys: props.sys ? props.sys : 120,
-            dia: props.dia ? props.dia : 80,
-            pul: props.pul ? props.pul : 70,
+            data: {
+                sys: props.sys ? props.sys : 120,
+                dia: props.dia ? props.dia : 80,
+                pul: props.pul ? props.pul : 70,
+            },
             submitting: false,
             submitted: false
         }
     }
 
-     processSubmitSuccess() {
-        this.callback()
+    minus(which) {
+        var newValue = this.state.data;
+
+        if (newValue[which] > 0) {
+            newValue[which] --
+        }
+        this.setState({data: newValue});
+    }
+
+    plus(which) {
+        var newValue = this.state.data;
+
+        if (newValue[which] < 250) {
+            newValue[which] ++;
+        }
+        this.setState({data: newValue});
+    }
+
+    buttonMinus(which) {
+        return <button className="btn btn-sm" ref="minus" onClick={this.minus.bind(this, which)}>
+            <span className="glyphicon glyphicon-minus" aria-hidden="true"></span>
+        </button>
+    }
+
+    buttonPlus(which) {
+        return <button className="btn btn-sm" ref="plus" onClick={this.plus.bind(this, which)}>
+            <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+    }
+
+    processSubmitSuccess() {
+        this.props.callback();
         this.setState({ submitting: false, submitted: true })
     }
 
@@ -32,10 +63,8 @@ class PressureInput extends Component {
     }
 
     submit() {
-        // console.log('this.state.weight:', this.state.weight);
         this.setState({ submitting: true })
 
-        // console.log(Utils.arrToNum(this.state.weight));
         $.ajax({
             type: 'POST',
             url: UrlUtils.getPressureUrl(),
@@ -43,9 +72,9 @@ class PressureInput extends Component {
             data: {
                 for_date: this.for_date,
                 for_hour: this.for_hour,
-                sys: this.state.sys,
-                dia: this.state.dia,
-                pul: this.state.pul
+                sys: this.state.data.sys,
+                dia: this.state.data.dia,
+                pul: this.state.data.pul
             },
             dataType: 'json',
             success: this.processSubmitSuccess.bind(this),
@@ -53,26 +82,34 @@ class PressureInput extends Component {
         });
     }
 
-    logChange(val) {
-        console.log("Selected: " + JSON.stringify(val));
-    }
-
     render() {
-        var options = [
-          { value: 120, label: '120' },
-          { value: 121, label: '121' }
-        ];
-        return <div>
- <select>
-  <option value="volvo">Volvo</option>
-  <option value="saab">Saab</option>
-  <option value="mercedes">Mercedes</option>
-  <option value="audi">Audi</option>
-</select>
-            <Button submit={false} loading={this.state.submitting} disabled={this.state.submitting} onClick={this.submit.bind(this)}>
-                { this.for_date } { this.for_hour }:00
-            </Button>
-        </div>
+        return (
+            <div>
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>{this.buttonMinus('sys')}</td>
+                        <td className="digits">{this.state.data.sys}</td>
+                        <td>{this.buttonPlus('sys')}</td>
+                    </tr>
+                    <tr>
+                        <td>{this.buttonMinus('dia')}</td>
+                        <td className="digits">{this.state.data.dia}</td>
+                        <td>{this.buttonPlus('dia')}</td>
+                    </tr>
+                    <tr>
+                        <td>{this.buttonMinus('pul')}</td>
+                        <td className="digits">{this.state.data.pul}</td>
+                        <td>{this.buttonPlus('pul')}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br />
+                <Button submit={true} loading={this.state.submitting} disabled={this.state.submitting || this.state.submitted} onClick={this.submit.bind(this)}>
+                    { this.for_date } { ("00" + this.for_hour).slice(-2) }:00
+                </Button>
+            </div>
+        )
     }
 }
 
