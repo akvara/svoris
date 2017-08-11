@@ -11,9 +11,8 @@ class WeightInput extends Component {
         let weight = props.last ? props.last : 91.2
 
         this.for_date = Utils.formatDate(new Date().toISOString())
-
         this.state = {
-            weight: Utils.numToArr(weight),
+            weight: Utils.numToArr(weight, 3),
             submitting: false
         }
     }

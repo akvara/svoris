@@ -7,11 +7,14 @@ var formatDate = function(dateStr) {
         return year + '-' + ("00" + month).slice(-2)  + '-' + ("00" + day).slice(-2);
 }
 
-var numToArr = function(numStr) {
+var numToArr = function(numStr, requiredLen) {
     if (typeof(numStr) === 'number') numStr = numStr.toString();
     let arr = [];
     for (var i = 0, len = numStr.length; i < len; i++) {
         if (numStr[i] !== '.')  arr.push(numStr[i]);
+    }
+    for (i = numStr.length; i < requiredLen; i++) {
+        arr.push('0');
     }
     return arr;
 }
