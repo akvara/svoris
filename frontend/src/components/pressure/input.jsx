@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ButtonMath from '../buttonMath';
 import Button from '../button';
 import * as Utils from '../../utils/utils';
 import * as UrlUtils from '../../utils/url-utils';
@@ -22,33 +23,24 @@ class PressureInput extends Component {
         }
     }
 
-    minus(which) {
+    performOp(op, which, extreme) {
         var newValue = this.state.data;
-
-        if (newValue[which] > 0) {
-            newValue[which] --
+        if (op === 'minus') {
+            if (newValue[which] > extreme) {
+                newValue[which] --;
+                this.setState({data: newValue});
+            }
+        } else {
+            if (newValue[which] < extreme) {
+                newValue[which] ++;
+                this.setState({data: newValue});
+            }
         }
-        this.setState({data: newValue});
     }
 
-    plus(which) {
-        var newValue = this.state.data;
-
-        if (newValue[which] < 250) {
-            newValue[which] ++;
-        }
-        this.setState({data: newValue});
-    }
-
-    buttonMinus(which) {
-        return <button className="btn btn-sm" ref="minus" onClick={this.minus.bind(this, which)}>
-            <span className="glyphicon glyphicon-minus" aria-hidden="true"></span>
-        </button>
-    }
-
-    buttonPlus(which) {
-        return <button className="btn btn-sm" ref="plus" onClick={this.plus.bind(this, which)}>
-            <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    buttonMath(operation, which, extreme) {
+        return <button className="btn btn-sm" ref={operation + which} onClick={this.performOp.bind(this, operation, which, extreme)}>
+            <span className={"glyphicon glyphicon-" + operation} aria-hidden="true"></span>
         </button>
     }
 
@@ -88,19 +80,19 @@ class PressureInput extends Component {
                 <table>
                     <tbody>
                     <tr>
-                        <td>{this.buttonMinus('sys')}</td>
+                        <td>{this.buttonMath('minus', 'sys', 70)}</td>
                         <td className="digits">{this.state.data.sys}</td>
-                        <td>{this.buttonPlus('sys')}</td>
+                        <td>{this.buttonMath('plus', 'sys', 250)}</td>
                     </tr>
                     <tr>
-                        <td>{this.buttonMinus('dia')}</td>
+                        <td>{this.buttonMath('minus', 'dia', 50)}</td>
                         <td className="digits">{this.state.data.dia}</td>
-                        <td>{this.buttonPlus('dia')}</td>
+                        <td>{this.buttonMath('plus', 'dia', 150)}</td>
                     </tr>
                     <tr>
-                        <td>{this.buttonMinus('pul')}</td>
+                        <td>{this.buttonMath('minus', 'pul', 40)}</td>
                         <td className="digits">{this.state.data.pul}</td>
-                        <td>{this.buttonPlus('pul')}</td>
+                        <td>{this.buttonMath('plus', 'pul', 160)}</td>
                     </tr>
                     </tbody>
                 </table>
