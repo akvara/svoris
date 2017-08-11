@@ -1,6 +1,6 @@
-import requests
-import sys
 import re
+import requests
+
 
 def post_pressures(list):
     lineno = 0

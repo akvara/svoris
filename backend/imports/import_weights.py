@@ -22,7 +22,8 @@
 #####
 
 import requests
-import sys
+
+
 def post_weights(list):
     lineno = 0
     for str in list:
