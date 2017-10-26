@@ -4,7 +4,7 @@ import * as Utils from '../../utils/utils';
 
 class WeightOutput extends Lister {
     formatItem(item) {
-        return <div>{item.weight} <span className="small"> - {Utils.formatDate(item.for_date)}</span></div>
+        return <div>{item.weight.toFixed(1)} <span className="small"> - {Utils.formatDate(item.for_date)}</span></div>
     }
 }
 

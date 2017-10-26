@@ -22,7 +22,8 @@
 #####
 
 import requests
-import sys
+
+
 def post_weights(list):
     lineno = 0
     for str in list:
@@ -39,8 +40,8 @@ def post_weights(list):
             print "Not imported: '" + str + "' at line", lineno
 
 
-# url = 'http://127.0.0.1:5000/weights/'
-url = 'http://svoris-api.herokuapp.com/weights/'
+url = 'http://127.0.0.1:5000/weights/'
+# url = 'http://svoris-api.herokuapp.com/weights/'
 
 if __name__ == "__main__":
     # execute only if run as a script

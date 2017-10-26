@@ -1,10 +1,11 @@
+import logging
+import sys
+
+from flask import request, jsonify, abort
 from flask_api import FlaskAPI
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-from flask import request, jsonify, abort
 from instance.config import app_config
-import logging
-import sys
 
 db = SQLAlchemy()
 

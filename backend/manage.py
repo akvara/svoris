@@ -1,14 +1,14 @@
 import os
-from flask_script import Manager
-from flask_migrate import Migrate, MigrateCommand
-from app import db, create_app
-from app import weight
 import unittest
+
+from flask_migrate import Migrate, MigrateCommand
+from flask_script import Manager
+
+from app import db, create_app
 
 # initialize the app with all its configurations
 app = create_app(config_name = os.getenv('APP_SETTINGS'))
 migrate = Migrate(app, db)
-
 
 # create an instance of class that will handle our commands
 manager = Manager(app)
