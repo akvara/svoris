@@ -1,18 +1,18 @@
-var CONFIG = require('../config.js');
+const CONFIG = require('../config.js');
 
-var getHostUrl = function() {
+let getHostUrl = function() {
     return process.env.NODE_ENV === 'development' ? CONFIG.default.devHost : CONFIG.default.apiHost;
 };
 
-var getBaseUrl = function() {
+let getBaseUrl = function() {
     return getHostUrl();
 };
 
-var getWeightUrl = function() {
+let getWeightUrl = function() {
     return getBaseUrl() + CONFIG.default.weightAddon + '/';
 };
 
-var getPressureUrl = function() {
+let getPressureUrl = function() {
     return getBaseUrl() + CONFIG.default.pressureAddon + '/';
 };
 

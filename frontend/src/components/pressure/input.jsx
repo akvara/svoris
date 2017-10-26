@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ButtonMath from '../buttonMath';
 import Button from '../button';
 import * as Utils from '../../utils/utils';
 import * as UrlUtils from '../../utils/url-utils';
@@ -9,8 +8,8 @@ class PressureInput extends Component {
     constructor(props, context) {
         super(props, context);
 
-        this.for_date = Utils.formatDate(new Date().toISOString())
-        this.for_hour = new Date().getHours()
+        this.for_date = Utils.formatDate(new Date().toISOString());
+        this.for_hour = new Date().getHours();
 
         this.state = {
             data: {
@@ -24,15 +23,15 @@ class PressureInput extends Component {
     }
 
     performOp(op, which, extreme) {
-        var newValue = this.state.data;
+        let newValue = this.state.data;
         if (op === 'minus') {
             if (newValue[which] > extreme) {
-                newValue[which] --;
+                newValue[which]--;
                 this.setState({data: newValue});
             }
         } else {
             if (newValue[which] < extreme) {
-                newValue[which] ++;
+                newValue[which]++;
                 this.setState({data: newValue});
             }
         }
@@ -40,7 +39,8 @@ class PressureInput extends Component {
 
     buttonMath(operation, which, extreme) {
         return <button className="btn btn-sm" ref={operation + which} onClick={this.performOp.bind(this, operation, which, extreme)}>
-            <span className={"glyphicon glyphicon-" + operation} aria-hidden="true"></span>
+            <span className={"glyphicon glyphicon-" + operation} aria-hidden="true">
+            </span>
         </button>
     }
 
@@ -50,12 +50,12 @@ class PressureInput extends Component {
     }
 
     processSubmitFailure(responseData, textStatus, errorThrown) {
-        this.setState({ submitting: false })
+        this.setState({ submitting: false });
         console.log('POST error:', responseData, textStatus, errorThrown);
     }
 
     submit() {
-        this.setState({ submitting: true })
+        this.setState({ submitting: true });
 
         $.ajax({
             type: 'POST',
@@ -97,7 +97,10 @@ class PressureInput extends Component {
                     </tbody>
                 </table>
                 <br />
-                <Button submit={true} loading={this.state.submitting} disabled={this.state.submitting || this.state.submitted} onClick={this.submit.bind(this)}>
+                <Button submit={true}
+                        loading={this.state.submitting}
+                        disabled={this.state.submitting || this.state.submitted}
+                        onClick={this.submit.bind(this)}>
                     { this.for_date } { ("00" + this.for_hour).slice(-2) }:00
                 </Button>
             </div>

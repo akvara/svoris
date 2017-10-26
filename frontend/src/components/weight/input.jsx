@@ -18,32 +18,38 @@ class WeightInput extends Component {
     }
 
     minus(which) {
-        var newValue = this.state.weight;
+        let newValue = this.state.weight;
 
         if (newValue[which] > 0) {
-            newValue[which] --;
+            newValue[which]--;
+        } else {
+            newValue[which] = 9;
         }
         this.setState({weight: newValue});
     }
 
     plus(which) {
-        var newValue = this.state.weight;
+        let newValue = this.state.weight;
 
         if (newValue[which] < 9) {
-            newValue[which] ++;
+            newValue[which]++;
+        } else {
+            newValue[which] = 0;
         }
         this.setState({weight: newValue});
     }
 
     buttonMinus(which) {
         return <button className="btn btn-sm" ref="minus" onClick={this.minus.bind(this, which)}>
-            <span className="glyphicon glyphicon-minus" aria-hidden="true"></span>
+            <span className="glyphicon glyphicon-minus" aria-hidden="true">
+            </span>
         </button>
     }
 
     buttonPlus(which) {
         return <button className="btn btn-sm" ref="plus" onClick={this.plus.bind(this, which)}>
-            <span className="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            <span className="glyphicon glyphicon-plus" aria-hidden="true">
+            </span>
         </button>
     }
 
@@ -53,12 +59,12 @@ class WeightInput extends Component {
     }
 
     processSubmitFailure(responseData, textStatus, errorThrown) {
-        this.setState({ submitting: false })
+        this.setState({ submitting: false });
         console.log('POST error:', responseData, textStatus, errorThrown);
     }
 
     submit() {
-        this.setState({ submitting: true })
+        this.setState({ submitting: true });
 
         $.ajax({
             type: 'POST',
@@ -97,7 +103,10 @@ class WeightInput extends Component {
                     </tbody>
                 </table>
                 <br />
-                <Button submit={false} loading={this.state.submitting} disabled={this.state.submitting || this.state.submitted} onClick={this.submit.bind(this)}>
+                <Button submit={false}
+                        loading={this.state.submitting}
+                        disabled={this.state.submitting || this.state.submitted}
+                        onClick={this.submit.bind(this)}>
                     { this.for_date }
                 </Button>
             </div>

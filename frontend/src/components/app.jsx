@@ -21,12 +21,12 @@ class App extends React.Component {
         this.state = { which: 'Svoris' } ;
     }
 
-    switch() {
+    switchMode() {
         if (this.state.which === 'Svoris') {
-            this.requestData('Spaudimas')
+            this.requestData('Spaudimas');
             this.setState({ which: 'Spaudimas' })
         } else {
-            this.requestData('Svoris')
+            this.requestData('Svoris');
             this.setState({ which: 'Svoris' })
         }
     }
@@ -40,15 +40,19 @@ class App extends React.Component {
     }
 
     snatchWeightData(data) {
-        var arr = []
+        let arr = [];
         data.forEach(function(element) {
-            arr.push({'for_date': Utils.formatDate(element.for_date), 'weight': element.weight, date: new Date(Utils.formatDate(element.for_date))});
+            arr.push({
+                'for_date': Utils.formatDate(element.for_date),
+                'weight': element.weight,
+                'date': new Date(Utils.formatDate(element.for_date))
+            });
         });
         return arr;
     }
 
     snatchPressureData(data) {
-        var arr = []
+        let arr = [];
         data.forEach(function(element) {
             arr.push({
                 'for_date': Utils.formatDate(element.for_date),
@@ -56,7 +60,7 @@ class App extends React.Component {
                 'sys': element.sys,
                 'dia': element.dia,
                 'pul': element.pul,
-                date: new Date(Utils.formatDate(element.for_date))
+                'date': new Date(Utils.formatDate(element.for_date))
             });
         });
         return arr;
@@ -102,8 +106,8 @@ class App extends React.Component {
             }
         }
 
-        var by_date_asc = Utils.sortByDate(snatched, false).slice();
-        var by_date_desc = Utils.sortByDate(snatched, true).slice();
+        let by_date_asc = Utils.sortByDate(snatched, false).slice();
+        let by_date_desc = Utils.sortByDate(snatched, true).slice();
 
         ReactDOM.render(<WeightInput last={by_date_asc[by_date_asc.length - 1].weight} callback={this.callback.bind(this)}/>, document.getElementById('input'));
         ReactDOM.render(<WeightChart items={by_date_asc}/>, document.getElementById('chart'));
@@ -114,11 +118,10 @@ class App extends React.Component {
     pressuresReceived(data) {
         let snatched = this.snatchPressureData(data);
 
-        let stats = {
-        }
+        let stats = {};
 
-        var by_date_asc = Utils.sortByDate(snatched, false).slice();
-        var by_date_desc = Utils.sortByDate(snatched, true).slice();
+        let by_date_asc = Utils.sortByDate(snatched, false).slice();
+        let by_date_desc = Utils.sortByDate(snatched, true).slice();
 
         ReactDOM.render(<PressureInput last={by_date_asc[by_date_asc.length - 1].weight} callback={this.callback.bind(this)}/>, document.getElementById('input'));
         ReactDOM.render(<PressureChart items={by_date_asc}/>, document.getElementById('chart'));
@@ -130,7 +133,7 @@ class App extends React.Component {
         return (
             <div>
                 <br />
-                <button onClick={this.switch.bind(this)} >Spaudimas / Svoris</button>
+                <button onClick={this.switchMode.bind(this)} >Spaudimas / Svoris</button>
 
                 <h1>{this.state.which}</h1>
             </div>

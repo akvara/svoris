@@ -10,7 +10,8 @@ services:
         volumes:
             - data:/var/lib/postgresql/data
         ports:
-            - "6432:5432"
+            - "5432:5432"
+
     flask-api:
         build: ./backend
         volumes:
@@ -33,7 +34,7 @@ services:
             - db
 
     frontend:
-        image: node:5.10
+        image: node:8.6.0
         working_dir: /frontend
         command: npm run start
         volumes:
