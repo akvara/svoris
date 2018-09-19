@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import Button from '../button';
 import * as Utils from '../../utils/utils';
 import * as UrlUtils from '../../utils/url-utils';
@@ -19,7 +19,7 @@ class PressureInput extends Component {
             },
             submitting: false,
             submitted: false
-        }
+        };
     }
 
     performOp(op, which, extreme) {
@@ -38,24 +38,30 @@ class PressureInput extends Component {
     }
 
     buttonMath(operation, which, extreme) {
-        return <button className="btn btn-sm" ref={operation + which} onClick={this.performOp.bind(this, operation, which, extreme)}>
-            <span className={"glyphicon glyphicon-" + operation} aria-hidden="true">
-            </span>
-        </button>
+        return (
+            <button
+                className="btn btn-sm"
+                ref={operation + which}
+                onClick={this.performOp.bind(this, operation, which, extreme)}
+            >
+                <span className={'glyphicon glyphicon-' + operation} aria-hidden="true">
+                </span>
+            </button>
+        );
     }
 
     processSubmitSuccess() {
         this.props.callback();
-        this.setState({ submitting: false, submitted: true })
+        this.setState({submitting: false, submitted: true});
     }
 
     processSubmitFailure(responseData, textStatus, errorThrown) {
-        this.setState({ submitting: false });
+        this.setState({submitting: false});
         console.log('POST error:', responseData, textStatus, errorThrown);
     }
 
     submit() {
-        this.setState({ submitting: true });
+        this.setState({submitting: true});
 
         $.ajax({
             type: 'POST',
@@ -96,15 +102,15 @@ class PressureInput extends Component {
                     </tr>
                     </tbody>
                 </table>
-                <br />
+                <br/>
                 <Button submit={true}
                         loading={this.state.submitting}
                         disabled={this.state.submitting || this.state.submitted}
                         onClick={this.submit.bind(this)}>
-                    { this.for_date } { ("00" + this.for_hour).slice(-2) }:00
+                    {this.for_date} {('00' + this.for_hour).slice(-2)}:00
                 </Button>
             </div>
-        )
+        );
     }
 }
 

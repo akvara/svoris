@@ -9,11 +9,12 @@ from instance.config import app_config
 
 db = SQLAlchemy()
 
+
 def create_app(config_name):
     from app.weight import Weight
     from app.pressure import Pressure
 
-    app = FlaskAPI(__name__, instance_relative_config = True)
+    app = FlaskAPI(__name__, instance_relative_config=True)
     CORS(app)
 
     app.logger.addHandler(logging.StreamHandler(sys.stdout))
@@ -24,16 +25,16 @@ def create_app(config_name):
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
 
-    #=========== Weight ======================================
+    # =========== Weight ======================================
     @app.route('/weights/', methods=['POST', 'GET'])
     def weights():
         if request.method == "POST":
             for_date = str(request.data.get('for_date', ''))
             weight_data = str(request.data.get('weight', ''))
-            if for_date and weight_data and weight_data.replace('.','',1).isdigit():
-                weight = Weight.query.filter_by(for_date = for_date).first()
+            if for_date and weight_data and weight_data.replace('.', '', 1).isdigit():
+                weight = Weight.query.filter_by(for_date=for_date).first()
                 if not weight:
-                    weight = Weight(for_date = for_date, weight = weight_data)
+                    weight = Weight(for_date=for_date, weight=weight_data)
                 else:
                     weight.weight = weight_data
                 weight.save()
@@ -82,7 +83,7 @@ def create_app(config_name):
 
     @app.route('/weights/<int:id>', methods=['GET'])
     def weight_manipulation(id, **kwargs):
-        weight = Weight.query.filter_by(id = id).first()
+        weight = Weight.query.filter_by(id=id).first()
         if not weight:
             # Raise an HTTPException with a 404 not found status code
             abort(404)
@@ -98,7 +99,7 @@ def create_app(config_name):
         response.status_code = 200
         return response
 
-    #=========== Pressure ======================================
+    # =========== Pressure ======================================
     @app.route('/pressures/', methods=['POST', 'GET'])
     def pressures():
         if request.method == "POST":
@@ -108,14 +109,14 @@ def create_app(config_name):
             dia_data = str(request.data.get('dia', ''))
             pul_data = str(request.data.get('pul', ''))
             if for_date and for_hour and sys_data and dia_data and pul_data:
-                pressure = Pressure.query.filter_by(for_date = for_date, for_hour = for_hour).first()
+                pressure = Pressure.query.filter_by(for_date=for_date, for_hour=for_hour).first()
                 if not pressure:
                     pressure = Pressure(
-                        for_date = for_date,
-                        for_hour = for_hour,
-                        sys = sys_data,
-                        dia = dia_data,
-                        pul = pul_data
+                        for_date=for_date,
+                        for_hour=for_hour,
+                        sys=sys_data,
+                        dia=dia_data,
+                        pul=pul_data
                     )
                 else:
                     pressure.sys = sys_data
@@ -180,7 +181,7 @@ def create_app(config_name):
 
     @app.route('/pressures/<int:id>', methods=['GET'])
     def pressure_manipulation(id, **kwargs):
-        pressure = Pressure.query.filter_by(id = id).first()
+        pressure = Pressure.query.filter_by(id=id).first()
         if not pressure:
             # Raise an HTTPException with a 404 not found status code
             abort(404)

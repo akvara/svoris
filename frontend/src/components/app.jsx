@@ -67,9 +67,7 @@ class App extends React.Component {
 
     requestData(which) {
         if (which === 'Svoris') {
-            $.get(
-                UrlUtils.getWeightUrl()
-            )
+            $.get(UrlUtils.getWeightUrl())
                 .done((data) => {
                     this.weightsReceived(data);
                 })
@@ -77,9 +75,7 @@ class App extends React.Component {
                     console.log(err);
                 });
         } else {
-            $.get(
-                UrlUtils.getPressureUrl()
-            )
+            $.get(UrlUtils.getPressureUrl())
                 .done((data) => {
                     this.pressuresReceived(data);
                 })
@@ -114,7 +110,8 @@ class App extends React.Component {
         let by_date_asc = Utils.sortByDate(snatched, false).slice();
         let by_date_desc = Utils.sortByDate(snatched, true).slice();
 
-        ReactDOM.render(<WeightInput last={by_date_asc[by_date_asc.length - 1].weight} callback={this.callback.bind(this)}/>, document.getElementById('input'));
+        ReactDOM.render(<WeightInput last={by_date_asc[by_date_asc.length - 1].weight}
+                                     callback={this.callback.bind(this)}/>, document.getElementById('input'));
         ReactDOM.render(<WeightChart items={by_date_asc}/>, document.getElementById('chart'));
         ReactDOM.render(<WeightStats items={stats}/>, document.getElementById('stats'));
         ReactDOM.render(<WeightOutput items={by_date_desc}/>, document.getElementById('output'));
@@ -147,8 +144,8 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <br />
-                <button onClick={this.switchMode.bind(this)} >Spaudimas / Svoris</button>
+                <br/>
+                <button onClick={this.switchMode.bind(this)}>Spaudimas / Svoris</button>
 
                 <h1>{this.state.which}</h1>
             </div>
