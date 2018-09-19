@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
 import WeightInput from './weight/input';
 import WeightOutput from './weight/output';
 import WeightStats from './weight/stats';
@@ -18,30 +17,30 @@ class App extends React.Component {
     constructor(props, context) {
         super(props, context);
 
-        this.state = { which: 'Svoris' } ;
+        this.state = {which: 'Svoris'};
     }
 
     switchMode() {
         if (this.state.which === 'Svoris') {
             this.requestData('Spaudimas');
-            this.setState({ which: 'Spaudimas' })
+            this.setState({which: 'Spaudimas'});
         } else {
             this.requestData('Svoris');
-            this.setState({ which: 'Svoris' })
+            this.setState({which: 'Svoris'});
         }
     }
 
     callback() {
-        this.requestData(this.state.which)
+        this.requestData(this.state.which);
     }
 
     componentWillMount() {
-        this.requestData('Svoris')
+        this.requestData('Svoris');
     }
 
     snatchWeightData(data) {
         let arr = [];
-        data.forEach(function(element) {
+        data.forEach(function (element) {
             arr.push({
                 'for_date': Utils.formatDate(element.for_date),
                 'weight': element.weight,
@@ -53,7 +52,7 @@ class App extends React.Component {
 
     snatchPressureData(data) {
         let arr = [];
-        data.forEach(function(element) {
+        data.forEach(function (element) {
             arr.push({
                 'for_date': Utils.formatDate(element.for_date),
                 'for_hour': element.for_hour,
@@ -71,26 +70,32 @@ class App extends React.Component {
             $.get(
                 UrlUtils.getWeightUrl()
             )
-            .done((data) => {
-                this.weightsReceived(data)
-            })
-            .fail((err) => {
-                console.log(err);
-            });
+                .done((data) => {
+                    this.weightsReceived(data);
+                })
+                .fail((err) => {
+                    console.log(err);
+                });
         } else {
             $.get(
                 UrlUtils.getPressureUrl()
             )
-            .done((data) => {
-                this.pressuresReceived(data)
-            })
-            .fail((err) => {
-                console.log(err);
-            });
+                .done((data) => {
+                    this.pressuresReceived(data);
+                })
+                .fail((err) => {
+                    console.log(err);
+                });
         }
     }
 
     weightsReceived(data) {
+        if (!data.length) {
+            return ReactDOM.render(
+                <WeightInput last={90} callback={this.callback.bind(this)}/>, document.getElementById('input')
+            );
+        }
+
         let snatched = this.snatchWeightData(data);
 
         let by_weight = Utils.sortArrOfObjectsByParam(snatched, 'weight').slice();
@@ -104,7 +109,7 @@ class App extends React.Component {
                 value: by_weight[by_weight.length - 1].weight,
                 for_date: by_weight[by_weight.length - 1].for_date
             }
-        }
+        };
 
         let by_date_asc = Utils.sortByDate(snatched, false).slice();
         let by_date_desc = Utils.sortByDate(snatched, true).slice();
@@ -116,6 +121,14 @@ class App extends React.Component {
     }
 
     pressuresReceived(data) {
+        if (!data.length) {
+            return ReactDOM.render(
+                <PressureInput
+                    callback={this.callback.bind(this)}
+                />,
+                document.getElementById('input')
+            );
+        }
         let snatched = this.snatchPressureData(data);
 
         let stats = {};
@@ -123,7 +136,9 @@ class App extends React.Component {
         let by_date_asc = Utils.sortByDate(snatched, false).slice();
         let by_date_desc = Utils.sortByDate(snatched, true).slice();
 
-        ReactDOM.render(<PressureInput last={by_date_asc[by_date_asc.length - 1].weight} callback={this.callback.bind(this)}/>, document.getElementById('input'));
+        ReactDOM.render(
+            <PressureInput callback={this.callback.bind(this)}/>, document.getElementById('input')
+        );
         ReactDOM.render(<PressureChart items={by_date_asc}/>, document.getElementById('chart'));
         ReactDOM.render(<PressureStats items={stats}/>, document.getElementById('stats'));
         ReactDOM.render(<PressureOutput items={by_date_desc}/>, document.getElementById('output'));
