@@ -13,10 +13,10 @@ services:
             - "7432:5432"
 
     flask-api:
-        build: ./backend
+        build: ./svoris-api
         volumes:
-            - ./backend:/app
-            - ./backend/media:/media
+            - ./svoris-api:/app
+            - ./svoris-api/media:/media
             - ./frontend/dist:/static
         command: ./bin/develop.sh
         ports:
@@ -39,7 +39,7 @@ services:
         command: npm run-script develop
         volumes:
             - ./frontend:/frontend
-            - ./backend:/backend
+            - ./svoris-api:/svoris-api
         ports:
             - "7000:3000"
         depends_on:

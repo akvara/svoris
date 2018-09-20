@@ -1,5 +1,9 @@
 # svoris
 
+## Deploying new DB on heroku:
+- heroku run python manage.py db migrate
+- heroku run python manage.py db upgrade
+
 mkdir svoris
 cd svoris
 mkdir app

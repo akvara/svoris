@@ -1,0 +1,3 @@
+[submodule "backend"]
+	path = svoris-api
+	url = git@github.com:akvara/svoris-api.git
