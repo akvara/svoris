@@ -88,7 +88,7 @@ class App extends React.Component {
     weightsReceived(data) {
         if (!data.length) {
             return ReactDOM.render(
-                <WeightInput last={90} callback={this.callback.bind(this)}/>, document.getElementById('input')
+                <WeightInput last={90} callback={this.callback.bind(this)} />, document.getElementById('input')
             );
         }
 
@@ -111,10 +111,10 @@ class App extends React.Component {
         let by_date_desc = Utils.sortByDate(snatched, true).slice();
 
         ReactDOM.render(<WeightInput last={by_date_asc[by_date_asc.length - 1].weight}
-                                     callback={this.callback.bind(this)}/>, document.getElementById('input'));
-        ReactDOM.render(<WeightChart items={by_date_asc}/>, document.getElementById('chart'));
-        ReactDOM.render(<WeightStats items={stats}/>, document.getElementById('stats'));
-        ReactDOM.render(<WeightOutput items={by_date_desc}/>, document.getElementById('output'));
+                                     callback={this.callback.bind(this)} />, document.getElementById('input'));
+        ReactDOM.render(<WeightChart items={by_date_asc} />, document.getElementById('chart'));
+        ReactDOM.render(<WeightStats items={stats} />, document.getElementById('stats'));
+        ReactDOM.render(<WeightOutput items={by_date_desc} />, document.getElementById('output'));
     }
 
     pressuresReceived(data) {
@@ -134,17 +134,17 @@ class App extends React.Component {
         let by_date_desc = Utils.sortByDate(snatched, true).slice();
 
         ReactDOM.render(
-            <PressureInput callback={this.callback.bind(this)}/>, document.getElementById('input')
+            <PressureInput callback={this.callback.bind(this)} />, document.getElementById('input')
         );
-        ReactDOM.render(<PressureChart items={by_date_asc}/>, document.getElementById('chart'));
-        ReactDOM.render(<PressureStats items={stats}/>, document.getElementById('stats'));
-        ReactDOM.render(<PressureOutput items={by_date_desc}/>, document.getElementById('output'));
+        ReactDOM.render(<PressureChart items={by_date_asc} />, document.getElementById('chart'));
+        ReactDOM.render(<PressureStats items={stats} />, document.getElementById('stats'));
+        ReactDOM.render(<PressureOutput items={by_date_desc} />, document.getElementById('output'));
     }
 
     render() {
         return (
             <div>
-                <br/>
+                <br />
                 <button onClick={this.switchMode.bind(this)}>Spaudimas / Svoris</button>
 
                 <h1>{this.state.which}</h1>
