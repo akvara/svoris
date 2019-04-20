@@ -24,8 +24,3 @@ python manage.py db migrate
 python manage.py db update
 
 flask run
-
-git init
-git remote add origin git@github.com:akvara/svoris.git
-git pull -r origin master
-git push origin master
