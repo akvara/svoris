@@ -9,7 +9,7 @@
     "react-dom": "^15.4.2",
     "react-select": "^1.0.0-rc.5",
     "react-switch-button": "^2.2.2",
-    "recharts": "^1.0.0-alpha.2"
+    "recharts": "^2.1.14"
   },
   "devDependencies": {
     "react-scripts": "^3.0.1"
