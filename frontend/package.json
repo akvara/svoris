@@ -5,8 +5,8 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "jquery": "^3.4.1",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "react-select": "^1.0.0-rc.5",
     "react-switch-button": "^2.2.2",
     "recharts": "^1.8.6"
