@@ -9,7 +9,7 @@
     "react-dom": "^19.2.8",
     "react-select": "^1.0.0-rc.5",
     "react-switch-button": "^2.2.2",
-    "recharts": "^1.8.6"
+    "recharts": "^3.10.1"
   },
   "devDependencies": {
     "prettier": "^2.8.3",
